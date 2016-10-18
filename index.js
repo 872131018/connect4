@@ -28,7 +28,7 @@ eventListener = new EventEmitter();
 *CREATE THE MAIN SERVERS
 */
 //define the static file server
-app.use('/', 
+app.use('/',
 	function(request, response)
 	{
 		urlArray = request.originalUrl.split('/');
@@ -43,7 +43,7 @@ app.use('/',
 	}
 );
 //tell the server to start listening
-server.listen(8080, 
+server.listen(8080,
 	function()
 	{
 		console.log('listening on *:8080');
@@ -52,7 +52,7 @@ server.listen(8080,
 /*
 *VARIOUS LISTENERS
 */
-eventListener.on("gameWon", 
+eventListener.on("gameWon",
 	function()
 	{
     	io.emit('gameWon', currentTurn);
@@ -60,7 +60,7 @@ eventListener.on("gameWon",
 );
 
 //when a player opens the socket
-io.on('connection', 
+io.on('connection',
 	function(socket)
 	{
 		//less than two players, create players on connection
@@ -74,13 +74,13 @@ io.on('connection',
 					'color': currentTurn
 				}));
 			//signal to the player that they have connected
-			socket.emit('createPlayer', 
+			socket.emit('createPlayer',
 				{
 					'postMessage': 'You connected as '+currentTurn,
 					'player': players[players.length-1]
 				});
 			//give each sockets its own listeners
-			socket.on('updateGrid', 
+			socket.on('updateGrid',
 				function(message)
 				{
 					grid.updateGrid(message['grid']);
@@ -98,13 +98,13 @@ io.on('connection',
 					io.emit('updateGrid', grid);
 				}
 			);
-	  		socket.on('chat message', 
+	  		socket.on('chat message',
 	  			function(message)
 	  			{
 	    			io.emit('chat message', message);
 	  			}
 	  		);
-	  		socket.on('disconnect', 
+	  		socket.on('disconnect',
 	  			function()
 	  			{
 	    			console.log('user disconnected');
@@ -127,7 +127,7 @@ io.on('connection',
 				}
 			}
 	  		/*
-	  		socket.on('playerUpdate', 
+	  		socket.on('playerUpdate',
 	  			function(passedPlayer)
 	  			{
 	  				player.updatePosition({'x': passedPlayer['positionX'], 'y': passedPlayer['positionY']});
